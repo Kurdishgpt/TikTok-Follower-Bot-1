@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import pyfiglet
 from time import sleep
+import os
 
 def loop1():
     global i
@@ -149,10 +150,18 @@ def loop6():
 
 print("Author: https://github.com/NoNameoN-A")
 
-vidUrl = "https://www.tiktok.com/@github_nonameon/video/6898692248968400130" #Change it
+# Get settings from environment variables (can be set in Replit Secrets)
+vidUrl = os.getenv("TIKTOK_VIDEO_URL", "https://www.tiktok.com/@github_nonameon/video/6898692248968400130")
+bot_choice = os.getenv("BOT_CHOICE", "")
 
-bot = int(input("What do you want to do?\n1 - Auto views(500)\n2 - Auto hearts\n3 - Auto (FIRST) comments heart\n4 - Auto followers\n5 - Auto Share\n6 - Simple reload\n"))
+if bot_choice:
+    bot = int(bot_choice)
+    print(f"Using bot choice from environment: {bot}")
+else:
+    bot = int(input("What do you want to do?\n1 - Auto views(500)\n2 - Auto hearts\n3 - Auto (FIRST) comments heart\n4 - Auto followers\n5 - Auto Share\n6 - Simple reload\n"))
 i = 0
+
+print(f"Starting bot with video URL: {vidUrl}")
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')

@@ -1,0 +1,26 @@
+HOW TO USE THIS BOT WITHOUT TYPING IN VNC (Mobile Friendly)
+==============================================================
+
+To avoid needing to type in VNC (which doesn't work well on mobile), 
+you can set these environment variables in Replit Secrets:
+
+1. TIKTOK_VIDEO_URL - Your TikTok video URL
+   Example: https://www.tiktok.com/@yourusername/video/1234567890
+
+2. BOT_CHOICE - Which automation to run (1-6)
+   1 = Auto views (500)
+   2 = Auto hearts
+   3 = Auto (FIRST) comments heart
+   4 = Auto followers
+   5 = Auto Share
+   6 = Simple reload
+
+HOW TO SET THEM:
+1. Go to Replit Secrets (lock icon in the sidebar)
+2. Add the secrets:
+   - Key: TIKTOK_VIDEO_URL, Value: your video URL
+   - Key: BOT_CHOICE, Value: number 1-6
+
+3. Restart the workflow
+
+The bot will automatically use these settings without asking for input!
