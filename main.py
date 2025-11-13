@@ -155,7 +155,6 @@ bot = int(input("What do you want to do?\n1 - Auto views(500)\n2 - Auto hearts\n
 i = 0
 
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(options=chrome_options)
