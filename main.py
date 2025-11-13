@@ -1,9 +1,13 @@
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import pyfiglet
 from time import sleep
 import os
+from twocaptcha import TwoCaptcha
 
 def loop1():
     global i
@@ -11,7 +15,12 @@ def loop1():
     try:
         driver.find_element_by_xpath("//*[@id=\"main\"]/div/div[4]/div/button").click()
     except:
-        print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
+        print("Captcha detected. Attempting AI solve...")
+        if captcha_solver:
+            solve_captcha_automatically()
+            sleep(3)
+        else:
+            print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
         driver.refresh()
         loop1()
     try:
@@ -39,7 +48,12 @@ def loop2():
     try:
         driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[3]/div/div[2]/div/button").click()
     except:
-        print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
+        print("Captcha detected. Attempting AI solve...")
+        if captcha_solver:
+            solve_captcha_automatically()
+            sleep(3)
+        else:
+            print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
         driver.refresh()
         loop2()
     try:
@@ -68,9 +82,14 @@ def loop3():
     try:
         driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[3]/div/div[3]/div/button").click()
     except:
-        print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
+        print("Captcha detected. Attempting AI solve...")
+        if captcha_solver:
+            solve_captcha_automatically()
+            sleep(3)
+        else:
+            print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
         driver.refresh()
-        loop2()
+        loop3()
     try:
         sleep(2)
         driver.find_element_by_xpath("/html/body/div[4]/div[4]/div/form/div/input").send_keys(vidUrl)
@@ -96,7 +115,12 @@ def loop4():
     try:
         driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[3]/div/div[1]/div/button").click() #Followers
     except:
-        print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
+        print("Captcha detected. Attempting AI solve...")
+        if captcha_solver:
+            solve_captcha_automatically()
+            sleep(3)
+        else:
+            print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
         driver.refresh()
         loop4()
     try:
@@ -123,7 +147,12 @@ def loop5():
     try:
         driver.find_element_by_xpath("/html/body/div[4]/div[1]/div[3]/div/div[5]/div/button").click()
     except:
-        print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
+        print("Captcha detected. Attempting AI solve...")
+        if captcha_solver:
+            solve_captcha_automatically()
+            sleep(3)
+        else:
+            print("You didn't solve the captcha yet. Need to refresh to avoid endless loop.")
         driver.refresh()
         loop5()
     try:
@@ -153,6 +182,71 @@ print("Author: https://github.com/NoNameoN-A")
 # Get settings from environment variables (can be set in Replit Secrets)
 vidUrl = os.getenv("TIKTOK_VIDEO_URL", "https://www.tiktok.com/@github_nonameon/video/6898692248968400130")
 bot_choice = os.getenv("BOT_CHOICE", "")
+captcha_api_key = os.getenv("CAPTCHA_API_KEY", "")
+
+# Initialize 2Captcha solver if API key is provided
+captcha_solver = None
+if captcha_api_key:
+    captcha_solver = TwoCaptcha(captcha_api_key)
+    print("✓ AI Captcha Solver enabled!")
+else:
+    print("⚠ No CAPTCHA_API_KEY found - you'll need to solve captchas manually")
+    print("  Get one at: https://2captcha.com (Starting at $0.50 per 1000 captchas)")
+
+def solve_captcha_automatically():
+    """Automatically solve reCAPTCHA using 2Captcha AI service"""
+    if not captcha_solver:
+        print("⚠ Captcha solver not configured. Waiting for manual solve...")
+        return False
+    
+    try:
+        print("🤖 AI is solving the captcha...")
+        # Find the reCAPTCHA iframe and get the site key
+        driver.switch_to.default_content()
+        
+        # Wait for reCAPTCHA to load
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[src*='google.com/recaptcha']"))
+            )
+            driver.switch_to.default_content()
+        except:
+            pass
+        
+        # Get the site key from the page
+        site_key = driver.execute_script("""
+            var iframe = document.querySelector('iframe[src*="google.com/recaptcha"]');
+            if (iframe) {
+                var src = iframe.src;
+                var match = src.match(/k=([^&]*)/);
+                return match ? match[1] : null;
+            }
+            return null;
+        """)
+        
+        if site_key:
+            print(f"🔑 Found captcha site key, solving...")
+            result = captcha_solver.recaptcha(
+                sitekey=site_key,
+                url=driver.current_url
+            )
+            
+            # Inject the solution into the page
+            driver.execute_script(f"""
+                document.getElementById('g-recaptcha-response').innerHTML = '{result['code']}';
+            """)
+            
+            print("✅ Captcha solved by AI!")
+            sleep(2)
+            return True
+        else:
+            print("⚠ Could not find captcha site key")
+            return False
+            
+    except Exception as e:
+        print(f"⚠ Captcha solving failed: {str(e)}")
+        print("  Waiting for manual solve...")
+        return False
 
 if bot_choice:
     bot = int(bot_choice)
@@ -166,6 +260,12 @@ print(f"Starting bot with video URL: {vidUrl}")
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
+# Performance optimizations to reduce VNC lag
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-software-rasterizer')
+chrome_options.add_argument('--disable-extensions')
+chrome_options.add_argument('--disable-infobars')
+chrome_options.add_argument('--window-size=1280,720')
 driver = webdriver.Chrome(options=chrome_options)
 
 driver.get("https://vipto.de/")

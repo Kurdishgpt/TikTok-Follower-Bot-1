@@ -1,26 +1,69 @@
-HOW TO USE THIS BOT WITHOUT TYPING IN VNC (Mobile Friendly)
-==============================================================
+🤖 MOBILE-FRIENDLY TIKTOK BOT CONFIGURATION
+==============================================
 
-To avoid needing to type in VNC (which doesn't work well on mobile), 
-you can set these environment variables in Replit Secrets:
+This bot is optimized for mobile VNC use with AI-powered captcha solving!
 
-1. TIKTOK_VIDEO_URL - Your TikTok video URL
-   Example: https://www.tiktok.com/@yourusername/video/1234567890
+📱 SETUP INSTRUCTIONS (No Typing Required in VNC!)
+--------------------------------------------------
 
-2. BOT_CHOICE - Which automation to run (1-6)
-   1 = Auto views (500)
-   2 = Auto hearts
-   3 = Auto (FIRST) comments heart
-   4 = Auto followers
-   5 = Auto Share
-   6 = Simple reload
+1. Click the 🔒 LOCK ICON in the left sidebar (Replit Secrets)
 
-HOW TO SET THEM:
-1. Go to Replit Secrets (lock icon in the sidebar)
-2. Add the secrets:
-   - Key: TIKTOK_VIDEO_URL, Value: your video URL
-   - Key: BOT_CHOICE, Value: number 1-6
+2. Add these secrets:
 
-3. Restart the workflow
+   🎯 TIKTOK_VIDEO_URL
+   - Your TikTok video URL
+   - Example: https://www.tiktok.com/@yourusername/video/1234567890
 
-The bot will automatically use these settings without asking for input!
+   🤖 BOT_CHOICE
+   - Choose which automation to run (enter just the number)
+   - 1 = Auto views (500)
+   - 2 = Auto hearts  
+   - 3 = Auto (FIRST) comments heart
+   - 4 = Auto followers
+   - 5 = Auto Share
+   - 6 = Simple reload
+
+   🔑 CAPTCHA_API_KEY (Optional but HIGHLY recommended!)
+   - Get AI-powered automatic captcha solving!
+   - Sign up at: https://2captcha.com
+   - Costs: Starting at $0.50 per 1000 captchas
+   - Cheaper alternatives: https://capsolver.com, https://anti-captcha.com
+   - Without this, you'll need to manually solve captchas in VNC
+
+3. RESTART the workflow after adding secrets
+
+✨ FEATURES
+-----------
+✅ No keyboard needed - all settings via Replit Secrets
+✅ AI automatically solves captchas (with API key)
+✅ Optimized for low lag in VNC
+✅ Works perfectly on mobile devices
+✅ Chrome browser visible in VNC desktop
+
+🔧 PERFORMANCE TIPS
+-------------------
+- The bot runs in VNC so you can see the browser
+- Chrome is optimized to reduce lag
+- AI captcha solver eliminates manual clicking
+- Set your preferences once, bot runs automatically!
+
+📝 HOW TO USE
+-------------
+1. Set all 3 secrets (TIKTOK_VIDEO_URL, BOT_CHOICE, CAPTCHA_API_KEY)
+2. Restart the workflow
+3. Watch it run in VNC - fully automated! 🚀
+
+💡 TROUBLESHOOTING
+------------------
+- Can't type in VNC? → Use Replit Secrets instead (that's the point!)
+- Captcha not solving? → Add CAPTCHA_API_KEY to Replit Secrets
+- Bot not starting? → Make sure BOT_CHOICE is 1-6
+- VNC lagging? → Bot is optimized, but lag depends on your internet speed
+
+🎁 FREE TRIAL CREDITS
+---------------------
+- 2Captcha: No free trial, but very cheap ($0.50/1000)
+- CapSolver: Often has promotional credits
+- Anti-Captcha: Sometimes offers trial credits
+
+Enjoy your automated TikTok bot! 🎉
